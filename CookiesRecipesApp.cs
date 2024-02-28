@@ -1,5 +1,5 @@
 namespace Cookbook;
-class CookiesRecipesApp
+public class CookiesRecipesApp
 {
     private readonly RecipesRepository _recipesRepository;
     private readonly RecipeUserInteraction _recipeUserInteraction;
@@ -37,9 +37,55 @@ class CookiesRecipesApp
                 "Recipe will not be created.");
         }
 
-        _recipesRepository.Exit();
+        _recipeUserInteraction.Exit();
     }
 }
 
 
+class RecipeUserInteraction
+{
+    internal void PrintExistingRecipes(object allRecipes)
+    {
+        throw new NotImplementedException();
+    }
 
+    internal void PromptToCreateRecipe()
+    {
+        throw new NotImplementedException();
+    }
+
+    internal object ReadIngredientsFromUser()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ShowMessage(string message)
+    {
+        Console.WriteLine(message);
+    }
+
+    public void Exit()
+    {
+        Console.WriteLine("Press any key to exit.");
+        Console.ReadKey();
+    }
+}
+
+
+class RecipesRepository
+{
+    internal object Read(object filepath)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal void ShowMessage(string v)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal void Write(object allRecipes, object filepath)
+    {
+        throw new NotImplementedException();
+    }
+}
