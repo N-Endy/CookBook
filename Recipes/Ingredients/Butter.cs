@@ -1,4 +1,4 @@
-namespace Cookbook.Recipes;
+namespace Cookbook.Recipes.Ingredients;
 public class Butter : Ingredient
 {
     public override int Id => 3;

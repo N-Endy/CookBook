@@ -1,4 +1,4 @@
-namespace Cookbook.Recipes;
+namespace Cookbook.Recipes.Ingredients;
 public class Eggs : Ingredient
 {
     public override int Id => 7;

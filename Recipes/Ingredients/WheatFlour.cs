@@ -1,4 +1,4 @@
-namespace Cookbook.Recipes;
+namespace Cookbook.Recipes.Ingredients;
 public class WheatFlour : Flour
 {
     public override int Id => 1;

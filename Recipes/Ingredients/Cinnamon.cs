@@ -1,4 +1,4 @@
-namespace Cookbook.Recipes;
+namespace Cookbook.Recipes.Ingredients;
 public class Cinnamon : Spice
 {
     public override int Id => 8;

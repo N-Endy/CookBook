@@ -1,4 +1,4 @@
-namespace Cookbook.Recipes
+namespace Cookbook.Recipes.Ingredients;
 
 public abstract class Ingredient
 {
