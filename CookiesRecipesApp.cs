@@ -1,26 +1,26 @@
 namespace Cookbook;
 public class CookiesRecipesApp
 {
-    private readonly RecipesRepository _recipesRepository;
-    private readonly RecipeUserInteraction _recipeUserInteraction;
+    private readonly IRecipesRepository _recipesRepository;
+    private readonly IRecipesUserInteraction _recipesUserInteraction;
 
     public CookiesRecipesApp(
-        RecipesRepository recipesRepository,
-        RecipeUserInteraction recipeUserInteraction
+        IRecipesRepository recipesRepository,
+        IRecipesUserInteraction recipeUserInteraction
         )
     {
         _recipesRepository = recipesRepository;
-        _recipeUserInteraction = recipeUserInteraction;
+        _recipesUserInteraction = recipeUserInteraction;
     }
 
     public void Run()
     {
         var allRecipes = _recipesRepository.Read(filepath);
-        _recipeUserInteraction.PrintExistingRecipes(allRecipes);
+        _recipesUserInteraction.PrintExistingRecipes(allRecipes);
 
-        _recipeUserInteraction.PromptToCreateRecipe();
+        _recipesUserInteraction.PromptToCreateRecipe();
 
-        var ingredients = _recipeUserInteraction.ReadIngredientsFromUser();
+        var ingredients = _recipesUserInteraction.ReadIngredientsFromUser();
 
         if(ingredients.Count > 0)
         {
@@ -32,33 +32,25 @@ public class CookiesRecipesApp
         }
         else
         {
-            _recipeUserInteraction.ShowMessage(
+            _recipesUserInteraction.ShowMessage(
                 "No Ingredients has been specified. " +
                 "Recipe will not be created.");
         }
 
-        _recipeUserInteraction.Exit();
+        _recipesUserInteraction.Exit();
     }
 }
 
 
-class RecipeUserInteraction
+interface IRecipesUserInteraction
 {
-    internal void PrintExistingRecipes(object allRecipes)
-    {
-        throw new NotImplementedException();
-    }
+    void ShowMessage(string message);
+    void Exit();
+}
 
-    internal void PromptToCreateRecipe()
-    {
-        throw new NotImplementedException();
-    }
 
-    internal object ReadIngredientsFromUser()
-    {
-        throw new NotImplementedException();
-    }
-
+class RecipesConsoleUserInteraction : IRecipesUserInteraction
+{
     public void ShowMessage(string message)
     {
         Console.WriteLine(message);
@@ -71,21 +63,12 @@ class RecipeUserInteraction
     }
 }
 
-
-class RecipesRepository
+interface IRecipesRepository
 {
-    internal object Read(object filepath)
-    {
-        throw new NotImplementedException();
-    }
 
-    internal void ShowMessage(string v)
-    {
-        throw new NotImplementedException();
-    }
+}
 
-    internal void Write(object allRecipes, object filepath)
-    {
-        throw new NotImplementedException();
-    }
+
+class RecipesRepository : IRecipesRepository
+{
 }
