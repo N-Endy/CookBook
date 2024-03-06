@@ -1,0 +1,15 @@
+/home/nelson/Desktop/C#/Udemy/Cookbook/obj/Debug/net7.0/Cookbook.csproj.AssemblyReference.cache
+/home/nelson/Desktop/C#/Udemy/Cookbook/obj/Debug/net7.0/Cookbook.GeneratedMSBuildEditorConfig.editorconfig
+/home/nelson/Desktop/C#/Udemy/Cookbook/obj/Debug/net7.0/Cookbook.AssemblyInfoInputs.cache
+/home/nelson/Desktop/C#/Udemy/Cookbook/obj/Debug/net7.0/Cookbook.AssemblyInfo.cs
+/home/nelson/Desktop/C#/Udemy/Cookbook/obj/Debug/net7.0/Cookbook.csproj.CoreCompileInputs.cache
+/home/nelson/Desktop/C#/Udemy/Cookbook/bin/Debug/net7.0/Cookbook
+/home/nelson/Desktop/C#/Udemy/Cookbook/bin/Debug/net7.0/Cookbook.deps.json
+/home/nelson/Desktop/C#/Udemy/Cookbook/bin/Debug/net7.0/Cookbook.runtimeconfig.json
+/home/nelson/Desktop/C#/Udemy/Cookbook/bin/Debug/net7.0/Cookbook.dll
+/home/nelson/Desktop/C#/Udemy/Cookbook/bin/Debug/net7.0/Cookbook.pdb
+/home/nelson/Desktop/C#/Udemy/Cookbook/obj/Debug/net7.0/Cookbook.dll
+/home/nelson/Desktop/C#/Udemy/Cookbook/obj/Debug/net7.0/refint/Cookbook.dll
+/home/nelson/Desktop/C#/Udemy/Cookbook/obj/Debug/net7.0/Cookbook.pdb
+/home/nelson/Desktop/C#/Udemy/Cookbook/obj/Debug/net7.0/Cookbook.genruntimeconfig.cache
+/home/nelson/Desktop/C#/Udemy/Cookbook/obj/Debug/net7.0/ref/Cookbook.dll
