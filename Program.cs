@@ -1,9 +1,13 @@
-﻿using Cookbook.Recipes;
+﻿using System.Xml.Linq;
+using Cookbook.Recipes;
 using Cookbook.Recipes.Ingredients;
+using Microsoft.VisualBasic;
+
+var ingredientsRegister = new IngredientsRegister();
 
 var cookiesRecipesApp = new CookiesRecipesApp(
-    new RecipesRepository(),
-    new RecipesConsoleUserInteraction(new IngredientsRegister()));
+    new RecipesRepository(new StringsTextualRepository(), ingredientsRegister),
+    new RecipesConsoleUserInteraction(ingredientsRegister));
 
 cookiesRecipesApp.Run("recipes.txt");
 
@@ -30,20 +34,21 @@ public class CookiesRecipesApp
 
         var ingredients = _recipesUserInteraction.ReadIngredientsFromUser();
 
-        // if (ingredients.Count > 0)
-        // {
-        //     var recipes = new Recipe(ingredients);
-        //     allRecipes.Add(recipes);
-        //     _recipesRepository.Write(allRecipes, filepath);
-        //     _recipesRepository.ShowMessage("Recipe Added:");
-        //     _recipesRepository.ShowMessage(recipes.ToString());
-        // }
-        // else
-        // {
-        //     _recipesUserInteraction.ShowMessage(
-        //         "No Ingredients has been specified. " +
-        //         "Recipe will not be created.");
-        // }
+        if (ingredients.Count() > 0)
+        {
+            var recipes = new Recipe(ingredients);
+            allRecipes.Add(recipes);
+            _recipesRepository.Write(allRecipes, filepath);
+
+            _recipesUserInteraction.ShowMessage("Recipe Added:");
+            _recipesUserInteraction.ShowMessage(recipes.ToString());
+        }
+        else
+        {
+            _recipesUserInteraction.ShowMessage(
+                "No Ingredients has been specified. " +
+                "Recipe will not be created.");
+        }
 
         _recipesUserInteraction.Exit();
     }
@@ -82,8 +87,8 @@ public class IngredientsRegister
         {
             if (ingredient.Id == id)
                 return ingredient;
-            return null;
         }
+        return null;
     }
 }
 
@@ -166,26 +171,88 @@ public class RecipesConsoleUserInteraction : IRecipesUserInteraction
 public interface IRecipesRepository
 {
     List<Recipe> Read(string filepath);
+    void Write(List<Recipe> allRecipes, string filepath);
 }
 
 
 public class RecipesRepository : IRecipesRepository
 {
+    private readonly IStringsRepository _stringsRepository;
+    private readonly IngredientsRegister _ingredientsRegister;
+    private const string Separator = ",";
+
+    public RecipesRepository(IStringsRepository stringsRepository, IngredientsRegister ingredientsRegister)
+    {
+        _stringsRepository = stringsRepository;
+        _ingredientsRegister = ingredientsRegister;
+    }
+
     public List<Recipe> Read(string filepath)
     {
-        return new List<Recipe>
+        var recipesFromFile = _stringsRepository.Read(filepath);
+        var recipes = new List<Recipe>();
+
+        foreach (var recipeId in recipesFromFile)
+        {
+            recipes.Add(GetRecipeById(recipeId));
+        }
+
+        return recipes;
+    }
+
+    private Recipe GetRecipeById(string recipeFromFile)
+    {
+        var textualIds = recipeFromFile.Split(Separator);
+        var ingredients = new List<Ingredient>();
+
+        foreach (var textualId in textualIds)
+        {
+            var id = int.Parse(textualId);
+            var ingredient = _ingredientsRegister.GetById(id);
+            ingredients.Add(ingredient);
+        }
+
+        return new Recipe(ingredients);
+    }
+
+    public void Write(List<Recipe> allRecipes, string filepath)
+    {
+        var recipesAssString = new List<string>();
+        foreach (var recipe in allRecipes)
+        {
+            var allIds = new List<int>();
+            foreach (var ingredient in recipe.Ingredients)
             {
-                new Recipe(new List<Ingredient>
-                {
-                    new Sugar(),
-                    new Chocolate(),
-                    new Butter(),
-                }),
-                new Recipe(new List<Ingredient>
-                {
-                    new Eggs(),
-                    new Cinnamon()
-                })
-            };
+                allIds.Add(ingredient.Id);
+            }
+            recipesAssString.Add(string.Join(Separator, allIds));
+        }
+        _stringsRepository.Write(filepath, recipesAssString);
+    }
+}
+
+public interface IStringsRepository
+{
+    List<string> Read(string filepath);
+    void Write(string filepath, List<string> allStrings);
+}
+
+public class StringsTextualRepository : IStringsRepository
+{
+    private static readonly string Separator = Environment.NewLine;
+
+    public List<string> Read(string filepath)
+    {
+        if (File.Exists(filepath))
+        {
+            var fileContents = File.ReadAllText(filepath);
+            return fileContents.Split(Separator).ToList();
+        }
+        return new List<string>();
+    }
+
+    public void Write(string filepath, List<string> strings)
+    {
+        File.WriteAllText(filepath, string.Join(Separator, strings));
     }
 }
