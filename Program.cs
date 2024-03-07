@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Text.Json;
+using System.Xml.Linq;
 using Cookbook.Recipes;
 using Cookbook.Recipes.Ingredients;
 using Microsoft.VisualBasic;
@@ -6,10 +7,10 @@ using Microsoft.VisualBasic;
 var ingredientsRegister = new IngredientsRegister();
 
 var cookiesRecipesApp = new CookiesRecipesApp(
-    new RecipesRepository(new StringsTextualRepository(), ingredientsRegister),
+    new RecipesRepository(new StringsJsonRepository(), ingredientsRegister),
     new RecipesConsoleUserInteraction(ingredientsRegister));
 
-cookiesRecipesApp.Run("recipes.txt");
+cookiesRecipesApp.Run("recipes.json");
 
 public class CookiesRecipesApp
 {
@@ -254,5 +255,23 @@ public class StringsTextualRepository : IStringsRepository
     public void Write(string filepath, List<string> strings)
     {
         File.WriteAllText(filepath, string.Join(Separator, strings));
+    }
+}
+
+public class StringsJsonRepository : IStringsRepository
+{
+    public List<string> Read(string filepath)
+    {
+        if (File.Exists(filepath))
+        {
+            var fileContents = File.ReadAllText(filepath);
+            return JsonSerializer.Deserialize<List<string>>(fileContents);
+        }
+        return new List<string>();
+    }
+
+    public void Write(string filepath, List<string> strings)
+    {
+        File.WriteAllText(filepath, JsonSerializer.Serialize(strings));
     }
 }
