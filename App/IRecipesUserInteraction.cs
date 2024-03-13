@@ -1,3 +1,6 @@
+using Cookbook.Recipes;
+using Cookbook.Recipes.Ingredients;
+
 public interface IRecipesUserInteraction
 {
     void ShowMessage(string message);
